@@ -1,0 +1,62 @@
+Prompt = """ I will enter a list of diseases.
+For each disease, return a JSON dictionary entry mapping the disease name to a list of common social-media search terms.
+Output only JSON. Example:
+{
+  "Allergic Rhinitis": ["allergy", "rhinitis", "pollen"]
+}
+[list]
+"""
+
+Terms = {
+    "Acute Bronchitis": ["bronchitis", "chest infection", "cough"],
+  "Acute respiratory infections (ARI)": ["respiratory infection", "chest infection", "severe cough"],
+  "Allergic Rhinitis": ["allergy", "hay fever", "pollen allergy"],
+  "Asthma": ["asthma", "wheezing", "inhaler"],
+  "Bronchiolitis": ["bronchiolitis", "RSV", "baby cough"],
+  "Bronchitis": ["bronchitis", "chronic cough", "lung infection"],
+  "Bullous Dermatoses": ["skin blisters", "pemphigoid", "autoimmune skin"],
+  "Chickenpox": ["chickenpox", "varicella", "itchy rash"],
+  "Common Cold": ["common cold", "runny nose", "stuffy nose"],
+  "Conjunctival Disorders": ["pink eye", "conjunctivitis", "red eye"],
+  "COVID-19": ["covid", "coronavirus", "long covid"],
+  "Croup": ["croup", "barking cough", "child cough"],
+  "Denom": ["denom disease", "rare denom", "denom syndrome"],
+  "ECLD - Asthma exacerbations": ["asthma attack", "asthma flare", "severe asthma"],
+  "ECLD - COPD exacerbations": ["COPD flare", "emphysema flare", "chronic bronchitis flare"],
+  "Exacerbations of chronic lung disease": ["lung flare", "respiratory exacerbation", "breathing difficulty"],
+  "Herpes Simplex": ["herpes simplex", "cold sores", "oral herpes"],
+  "Herpes Zoster": ["shingles", "herpes zoster", "shingles rash"],
+  "Impetigo": ["impetigo", "skin sores", "contagious rash"],
+  "Infectious Intestinal Diseases": ["stomach infection", "intestinal infection", "foodborne illness"],
+  "Infectious Mononucleosis": ["mono", "glandular fever", "epstein-barr virus"],
+  "Influenza-like illness": ["flu", "influenza", "fever and chills"],
+  "Laryngitis": ["laryngitis", "hoarse voice", "sore throat"],
+  "Laryngitis and Tracheitis": ["laryngitis", "tracheitis", "hoarse voice"],
+  "Lower Respiratory Tract Infections": ["lung infection", "bronchitis", "pneumonia"],
+  "Measles": ["measles", "rubeola", "red rash"],
+  "Meningitis and Encephalitis": ["meningitis", "encephalitis", "brain infection"],
+  "Mumps": ["mumps", "swollen glands", "parotitis"],
+  "Non-infective Enteritis and Colitis": ["enteritis", "colitis", "gut inflammation"],
+  "Otitis Media": ["ear infection", "middle ear infection", "ear pain"],
+  "Otitis Media Acute New": ["acute ear infection", "ear pain", "middle ear infection"],
+  "Peripheral Nervous Disease": ["peripheral neuropathy", "nerve pain", "numbness"],
+  "Pleurisy": ["pleurisy", "chest pain", "lung inflammation"],
+  "Pneumonia": ["pneumonia", "lung infection", "cough with fever"],
+  "Pneumonia and Pneumonitis": ["pneumonia", "lung inflammation", "breathing difficulty"],
+  "Respiratory System Diseases": ["lung disease", "breathing problems", "respiratory condition"],
+  "Rubella": ["rubella", "german measles", "rash"],
+  "Scabies": ["scabies", "itchy rash", "skin mites"],
+  "Sinusitis": ["sinus infection", "sinusitis", "facial pain"],
+  "Skin and Subcutaneous Tissue Infections": ["skin infection", "cellulitis", "boils"],
+  "Strep Throat and Peritonsillar Abscess": ["strep throat", "tonsil infection", "sore throat"],
+  "Symptoms involving musckuoskeletal": ["muscle pain", "joint pain", "stiffness"],
+  "Symptoms involving musculoskeletal": ["joint pain", "muscle ache", "stiffness"],
+  "Symptoms involving Respiratory and Chest": ["cough", "shortness of breath", "chest discomfort"],
+  "Symptoms involving Skin and Integument Tissues": ["rash", "skin irritation", "itching"],
+  "Tonsillitis and acute Pharyngitis": ["tonsillitis", "sore throat", "throat infection"],
+  "Tonsillitis/Pharyngitis": ["tonsillitis", "pharyngitis", "sore throat"],
+  "Upper Respiratory Tract Infections": ["URTI", "cold", "sore throat"],
+  "Urinary Tract Infections": ["UTI", "urinary infection", "painful urination"],
+  "Viral Hepatitis": ["hepatitis", "liver infection", "jaundice"],
+  "Whooping Cough": ["whooping cough", "pertussis", "severe cough"]
+}
