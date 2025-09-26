@@ -5,11 +5,12 @@ import json
 from datetime import datetime, timedelta
 import os
 import serpapi
-
+import time
+import random
 
 
 serp_key = r"4a517c80bf13cf1dc6ad67e1906627cce969b685d6ea53a8abeddb86ba9fe2e9"
-rtoken = "Bearer clt.2.8dSERwmt0PlZAztO6VCyqML4Rr4xaDp_fe35rfqIWzajBVxtvNgOfSGkMTqTDw0TnURTk_pQI6hD2EJ4KVNHnQ*0"
+rtoken = "Bearer clt.2.8dSERwmt0PlZAztO6VCyqOXLTRJr0nky7z9T97IP2bAC7iW3de2IC9SSIQgABv4OIw9ZUyQVx3UMRgmr6ylFOA*0"
 
 # Google Trends
 
@@ -82,9 +83,29 @@ def get_weekly_date_ranges(start_date: str, end_date: str):
     
     return weekly_ranges
 
+
+
+def safe_post(url, headers, json, retries=3):
+    for attempt in range(retries):
+        resp = rq.post(url, headers=headers, json=json)
+        if resp.status_code == 200 and resp.text.strip():
+            try:
+                return resp.json()
+            except json.JSONDecodeError:
+                pass  # invalid JSON, will retry
+        elif resp.status_code >= 500:
+            print(f"Server error {resp.status_code}, attempt {attempt+1}/{retries}...")
+            time.sleep(2 ** attempt + random.random())  # exponential backoff
+            continue
+        else:
+            raise RuntimeError(f"Fatal error {resp.status_code}: {resp.text[:200]}")
+    raise RuntimeError("Max retries reached, server still failing.")
+
+
+
 def tiksearch(sdate, edate, terms, searchid=None, cursor=0):
 
-    rtoken = "Bearer clt.2.Tw-eOJdaceTNAxnP3ITbUJXXk65h16oFLZFXzBthzRJUW4CXV4WCEtcFgUXnTBWvDuU8rgYTtoMvKXdSepryLg*3"
+    rtoken = "Bearer clt.2.H62ChJel21T7bIT4TUQDJz_zgNMex4pt_c51blgD3nV1RBQedUHBz7SzM_IXLfQXUx8zIi2Vt7KvPm9HrrD1fw*1"
     # URL with query fields
     url = "https://open.tiktokapis.com/v2/research/video/query/?fields=id,video_description,create_time"
 
@@ -116,51 +137,61 @@ def tiksearch(sdate, edate, terms, searchid=None, cursor=0):
         "start_date": sdate,
         "end_date": edate
     }
-    response = rq.post(url, headers=headers, json=data)
-    data = response.json()
+    response = safe_post(url, headers=headers, json=data)
+    data = response
     ids = []
     try:
         vids = data["data"]["videos"]
         for vid in vids:
-            ids.append(vid["id"])
+            ids.append(vid)
         a = data["data"]["has_more"]
         b = data["data"]["search_id"]
         c = data["data"]["cursor"]
+        f = 0
     except:
         a = False
         b = None
         c = 50
-    return [[a,b,c], ids]
+        f = 1
+    return [[a,b,c,f], ids]
 
-def toksearch(sD, eD, terms):
+def toksearch(sD, eD, terms, folder):
 
     weeks = get_weekly_date_ranges(sD,eD)
     weeks = weeks[:-1]
-
+    f = 0
     tscount = []
     for week in weeks:
         #print(week)
+        all_rows = []
         ids = []
         a = False
         try: 
-            ((a,b,c),vids) = tiksearch(sdate=week[0], edate=week[1], searchid=None, cursor=0, terms=terms)
+            ((a,b,c,f),vids) = tiksearch(sdate=week[0], edate=week[1], searchid=None, cursor=0, terms=terms)
             ids.extend(vids)
         except Exception as e:
             tscount.append(0)
             print("fail")
             print(e)
-            continue
+            f = 1
+            return tscount, f
         while(a == True):
             try:
-                ((a,b,c),vids) = tiksearch(sdate=week[0], edate=week[1], searchid=b, cursor=c, terms=terms)
+                ((a,b,c,f),vids) = tiksearch(sdate=week[0], edate=week[1], searchid=b, cursor=c, terms=terms)
                 ids.extend(vids)
             except Exception as e:
                 print("fail" + str(c))
-                #print(e)
-                break
-
+                print(e)
+                f = 1
+                return tscount, f
+        for vid in ids:
+            vid["week"] = week
+            all_rows.append(vid) 
         tscount.append(len(ids))
-    return tscount
+    
+    with open(os.path.join(folder, "tiktokData.json"), 'w') as g:
+        json.dump(all_rows, g)
+    return tscount, f
 
                 
             

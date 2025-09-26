@@ -11,7 +11,7 @@ warnings.warn = warn
 import CatalyseGetData as cgd
 import CatalyseAnalyses as ca
 
-base_folder = r"D:\projects\catalyseNEW\AllDis\results"
+base_folder = r"D:\projects\catalyseNEW\AllDis\results2"
 # Terms
 termsList = {
   "Acute Bronchitis": ["bronchitis", "chest infection", "cough"],
@@ -67,6 +67,101 @@ termsList = {
   "Whooping Cough": ["whooping cough", "pertussis", "severe cough"]
 }
 
+termsListTK = {
+    #'Acute Bronchitis': ['acuteBronchitis', 'chestinfection', 'bronchitis'],
+ 'Acute respiratory infections (ARI)': ['ARI',
+  'respiratoryinfection',
+  'acuteinfection'],
+ 'Allergic Rhinitis': ['allergy', 'hayfever', 'pollenallergy'],
+ 'Asthma': ['asthma', 'asthmaattack', 'asthmalife'],
+ 'Bronchiolitis': ['bronchiolitis', 'infantcough', 'babywheezing'],
+ 'Bronchitis': ['bronchitis', 'chestcough', 'lunginfection'],
+ 'Bullous Dermatoses': ['blisters', 'skindisease', 'bullous'],
+ 'Chickenpox': ['chickenpox', 'varicella', 'itchyrash'],
+ 'Common Cold': ['commoncold', 'coldflu', 'runny nose'],
+ 'Conjunctival Disorders': ['conjunctivitis', 'pinkeye', 'eyeinfection'],
+ 'COVID-19': ['covid19', 'coronavirus', 'covid'],
+ 'Croup': ['croup', 'barkingcough', 'childcough'],
+ 'Denom': ['denom', 'unknowncondition', 'denomsymptoms'],
+ 'ECLD - Asthma exacerbations': ['asthmaflare',
+  'asthmaattack',
+  'asthmaexacerbation'],
+ 'ECLD - COPD exacerbations': ['copdflare',
+  'copdexacerbation',
+  'breathingtrouble'],
+ 'Exacerbations of chronic lung disease': ['lungflare',
+  'chroniclung',
+  'breathingproblem'],
+ 'Herpes Simplex': ['herpessimplex', 'coldsores', 'oralherpes'],
+ 'Herpes Zoster': ['shingles', 'herpeszoster', 'zosterrash'],
+ 'Impetigo': ['impetigo', 'skinrash', 'skinblisters'],
+ 'Infectious Intestinal Diseases': ['intestinainfection',
+  'gutinfection',
+  'stomachbug'],
+ 'Infectious Mononucleosis': ['mononucleosis', 'mono', 'kissingdisease'],
+ 'Influenza-like illness': ['flu', 'influenza', 'flusymptoms'],
+ 'Laryngitis': ['laryngitis', 'lossofvoice', 'sorethroat'],
+ 'Laryngitis and Tracheitis': ['laryngitis', 'tracheitis', 'throatinfection'],
+ 'Lower Respiratory Tract Infections': ['lowerrespiratory',
+  'lunginfection',
+  'respiratoryillness'],
+ 'Measles': ['measles', 'measlesrash', 'measlesvirus'],
+ 'Meningitis and Encephalitis': ['meningitis',
+  'encephalitis',
+  'braininfection'],
+ 'Mumps': ['mumps', 'swollenglands', 'mumpsvirus'],
+ 'Non-infective Enteritis and Colitis': ['colitis',
+  'enteritis',
+  'gutdisorder'],
+ 'Number of practices': ['nopractice', 'practicecount', 'medicalpractice'],
+ 'Otitis Media': ['otitismedia', 'earinfection', 'middleearinfection'],
+ 'Otitis Media Acute': ['acuteotitismedia', 'acuteearinfection', 'earpain'],
+ 'Otitis Media Acute New': ['newotitismedia', 'neareinfection', 'acuteear'],
+ 'Peripheral Nervous Disease': ['nervepain',
+  'neuropathy',
+  'peripheralnervous'],
+ 'Pleurisy': ['pleurisy', 'chestpain', 'pleurapain'],
+ 'Pneumonia': ['pneumonia', 'lunginfection', 'walkingpneumonia'],
+ 'Pneumonia and Pneumonitis': ['pneumonitis', 'pneumonia', 'lunginflammation'],
+ 'Population': ['populationdata', 'populationcount', 'demographics'],
+ 'Practice Count': ['practicecount', 'practiceclinic', 'doctorpractice'],
+ 'Respiratory System Diseases': ['respiratorydisease',
+  'lungdisease',
+  'breathingissues'],
+ 'Rubella': ['rubella', 'germanmeasles', 'rubellavirus'],
+ 'Scabies': ['scabies', 'skindisease', 'mitesinfection'],
+ 'Sinusitis': ['sinusitis', 'sinusinfection', 'sinuspain'],
+ 'Skin and Subcutaneous Tissue Infections': ['skininfection',
+  'subcutaneousinfection',
+  'skinissues'],
+ 'Strep Throat and Peritonsillar Abscess': ['strepthroat',
+  'peritonsillarabscess',
+  'strepinfection'],
+ 'Symptoms involving musckuoskeletal': ['musculoskeletal',
+  'jointpain',
+  'musclesymptoms'],
+ 'Symptoms involving musculoskeletal': ['musculoskeletal',
+  'musclepain',
+  'bonesymptoms'],
+ 'Symptoms involving Respiratory and Chest': ['respiratorysymptoms',
+  'chestsymptoms',
+  'breathingsymptoms'],
+ 'Symptoms involving Skin and Integument Tissues': ['skinsymptoms',
+  'integumentsymptoms',
+  'skintissuesymptoms'],
+ 'Tonsillitis and acute Pharyngitis': ['tonsillitis',
+  'pharyngitis',
+  'sorethroat'],
+ 'Tonsillitis/Pharyngitis': ['tonsillitis', 'pharyngitis', 'throatinfection'],
+ 'Upper Respiratory Tract Infections': ['upperrespiratory',
+  'respiratoryinfection',
+  'coldlike'],
+ 'Urinary Tract Infections': ['uti',
+  'urinarytractinfection',
+  'bladderinfection'],
+ 'Viral Hepatitis': ['viralhepatitis', 'hepatitis', 'liverinfection'],
+ 'Whooping Cough': ['whoopingcough', 'pertussis', 'severecough']}
+ 
 # Get incidence data
 
 fp = r"D:\projects\catalyseNEW\AllDis\data\allDis0.csv"
@@ -77,21 +172,23 @@ eD = "2024129"
 sd = "2020-01-06"
 ed = "2024-01-31"
 ed1 = "2019-12-31"
-sd1 = "2014-12-29"
+sd1 = "2015-07-29"
 
-def buildDF(c):
+def buildDF(c, folder):
     incidence = idf[c].to_list()
     date = idf["Row Labels"].to_list()
-    #gt = cgd.gtrends(sd, ed, termsList[c])
-    #tk = cgd.toksearch(sD, eD, termsList[c])
+    gt = cgd.gtrends(sd, ed, termsList[c])
+    tk, f = cgd.toksearch(sD, eD, termsListTK[c], folder)
 
-    '''ml = min(len(incidence), len(date), len(gt), len(tk))
+    ml = min(len(incidence), len(date), len(gt), len(tk))
     incidence = incidence[:ml]
     date = date[:ml]
     gt = gt[:ml]
     tk = tk[:ml]
 
-    df = pd.DataFrame({"incidence":incidence, "date":date, "gt":gt, "tk":tk})'''
+    df = pd.DataFrame({"incidence":incidence, "date":date, "gt":gt, "tk":tk})
+
+    '''
 
     gr = cgd.gtrends(sd, ed, termsList[c])
     #print(gt0)
@@ -107,7 +204,8 @@ def buildDF(c):
 
     df = pd.DataFrame({"date":date, "incidence":incidence,  "gr":gr})
     
-    return df
+    '''
+    return df, f
 
 #ddf = buildDF("Common Cold")
 
@@ -137,7 +235,7 @@ T2 = results[results["horizon"]==0].round(2)'''
 def doAnalyses(base_folder):
     spm = {}
     for c in idf.columns:
-        if c in termsList.keys():
+        if c in termsList.keys() and c in termsListTK.keys():
             try:
                 print("!!!!!!!!!!!!!!!!!!!!!!")
                 print("!!!!!!!!!!!!!!!!!!!!!!" + c + "!!!!!!!!!!!!!!!!!!!!!!!!!")
@@ -145,19 +243,30 @@ def doAnalyses(base_folder):
                 folder = os.path.join(base_folder, c)
                 os.makedirs(folder, exist_ok=True)
 
-                df0 = buildDF(c)
+                if os.path.exists(os.path.join(folder, "ds.csv")):
+                    f = 0
+                    df0 = pd.read_csv(os.path.join(folder, "ds.csv"))
+                else:
+                    df0, f = buildDF(c, folder)
+                    df0.to_csv(os.path.join(folder, "ds.csv"))
+                
+                if f == 1:
+                    break
+
+                continue
+
                 ddf1 = ca.normalise(df0)
                 ca.plotSeries(ddf1, opf=folder)
                 sc = ca.findCorrs(ddf1, opf=folder)
                 spm[c] = sc
                 ca.rolling_origin_week_based(ddf1,"incidence", "week", 8, opf=folder)
-                df0.to_csv(os.path.join(folder, "ds.csv"))
-                #results = pd.read_csv(os.path.join(folder, "results.csv"))
+                
+                results = pd.read_csv(os.path.join(folder, "results.csv"))
             except Exception as E:
                 print(E)
-                continue
-    with open(os.path.join(base_folder, "spearmen.json"), 'w') as f:
-        json.dump(spm, f)
+                break
+    #with open(os.path.join(base_folder, "spearmen.json"), 'w') as f:
+    #    json.dump(spm, f)
 
 #running
 doAnalyses(base_folder)
