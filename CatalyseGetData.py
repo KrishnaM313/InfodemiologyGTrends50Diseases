@@ -105,7 +105,7 @@ def safe_post(url, headers, json, retries=3):
 
 def tiksearch(sdate, edate, terms, searchid=None, cursor=0):
 
-    rtoken = "Bearer clt.2.H62ChJel21T7bIT4TUQDJz_zgNMex4pt_c51blgD3nV1RBQedUHBz7SzM_IXLfQXUx8zIi2Vt7KvPm9HrrD1fw*1"
+    rtoken = "Bearer clt.2.ONmb-B9t3JY0aXdEr4-R9iHYrBYMVsa4p-vru1MMBDz95tdvtwp5WUw7ko4vLbnQAIBuSaO-DyECXcYYojOLqA*0"
     # URL with query fields
     url = "https://open.tiktokapis.com/v2/research/video/query/?fields=id,video_description,create_time"
 
