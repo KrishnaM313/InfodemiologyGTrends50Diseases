@@ -177,8 +177,11 @@ sd1 = "2015-07-29"
 def buildDF(c, folder):
     incidence = idf[c].to_list()
     date = idf["Row Labels"].to_list()
+    print("gt")
     gt = cgd.gtrends(sd, ed, termsList[c])
+    print("tk")
     tk, f = cgd.toksearch(sD, eD, termsListTK[c], folder)
+    print("done")
 
     ml = min(len(incidence), len(date), len(gt), len(tk))
     incidence = incidence[:ml]
@@ -251,7 +254,9 @@ def doAnalyses(base_folder):
                     df0.to_csv(os.path.join(folder, "ds.csv"))
                 
                 if f == 1:
+                    print("f")
                     break
+                
 
                 continue
 

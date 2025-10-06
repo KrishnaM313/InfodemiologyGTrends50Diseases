@@ -10,7 +10,7 @@ import random
 
 
 serp_key = r"4a517c80bf13cf1dc6ad67e1906627cce969b685d6ea53a8abeddb86ba9fe2e9"
-rtoken = "Bearer clt.2.8dSERwmt0PlZAztO6VCyqOXLTRJr0nky7z9T97IP2bAC7iW3de2IC9SSIQgABv4OIw9ZUyQVx3UMRgmr6ylFOA*0"
+rtoken = "Bearer clt.2._Sw77Gub7fq_JcotFHdINVqStsp6v5JodGmQY2XWHSqF22zzqAZx5tKg5wL2RVJjMqG1RJmQigD-oVIglu9Olg*2"
 
 # Google Trends
 
@@ -29,14 +29,18 @@ def gtrends(sdate, edate, terms):
     )
 
     # months = {"Jan":1, "Feb":2, "Mar":3, "Apr":4, "May":5, "Jun":6, "Jul":7, "Aug":8, "Sep":9, "Oct":10, "Nov":11, "Dec":12}
-    for entry in search0["interest_over_time"]["timeline_data"]:
-        for term in entry["values"]:
-            value = 0
-            try:
-                value += int(term["value"])
-            except:
-                pass
-        values.append(value)
+    try:
+        for entry in search0["interest_over_time"]["timeline_data"]:
+            for term in entry["values"]:
+                value = 0
+                try:
+                    value += int(term["value"])
+                except:
+                    pass
+            values.append(value)
+    except Exception as E:
+        print(E)
+        print("problem here")
 
     return values
 
@@ -105,7 +109,7 @@ def safe_post(url, headers, json, retries=3):
 
 def tiksearch(sdate, edate, terms, searchid=None, cursor=0):
 
-    rtoken = "Bearer clt.2.ONmb-B9t3JY0aXdEr4-R9iHYrBYMVsa4p-vru1MMBDz95tdvtwp5WUw7ko4vLbnQAIBuSaO-DyECXcYYojOLqA*0"
+    rtoken = "Bearer clt.2.H62ChJel21T7bIT4TUQDJ4aXP0oVJDQjoTFRPYNNLLhg0CBPKdFMpzlTa_lriZHbSiJFy6Z2ed6UqA7h1ZqiYA*1"
     # URL with query fields
     url = "https://open.tiktokapis.com/v2/research/video/query/?fields=id,video_description,create_time"
 
@@ -145,14 +149,11 @@ def tiksearch(sdate, edate, terms, searchid=None, cursor=0):
         for vid in vids:
             ids.append(vid)
         a = data["data"]["has_more"]
-        b = data["data"]["search_id"]
-        c = data["data"]["cursor"]
+        b = data["data"].get("search_id")
+        c = data["data"].get("cursor")
         f = 0
-    except:
-        a = False
-        b = None
-        c = 50
-        f = 1
+    except Exception:
+        raise
     return [[a,b,c,f], ids]
 
 def toksearch(sD, eD, terms, folder):
@@ -161,35 +162,31 @@ def toksearch(sD, eD, terms, folder):
     weeks = weeks[:-1]
     f = 0
     tscount = []
+    all_rows = []
     for week in weeks:
         #print(week)
-        all_rows = []
+        
         ids = []
         a = False
         try: 
             ((a,b,c,f),vids) = tiksearch(sdate=week[0], edate=week[1], searchid=None, cursor=0, terms=terms)
             ids.extend(vids)
         except Exception as e:
-            tscount.append(0)
-            print("fail")
-            print(e)
-            f = 1
+            raise
             return tscount, f
-        while(a == True):
+        while((a == True)  and (b and c)):
             try:
                 ((a,b,c,f),vids) = tiksearch(sdate=week[0], edate=week[1], searchid=b, cursor=c, terms=terms)
                 ids.extend(vids)
-            except Exception as e:
-                print("fail" + str(c))
-                print(e)
-                f = 1
-                return tscount, f
+            except Exception:
+                raise
+                
         for vid in ids:
             vid["week"] = week
             all_rows.append(vid) 
         tscount.append(len(ids))
     
-    with open(os.path.join(folder, "tiktokData.json"), 'w') as g:
+    with open(os.path.join(folder, "tiktokData.json"), 'a') as g:
         json.dump(all_rows, g)
     return tscount, f
 

@@ -129,20 +129,20 @@ def findCorrs(df, opf=None):
     return sc
 
 
-def create_lagged_features(data, lags=4):
+'''def create_lagged_features(data, lags=4):
     df_lag = data.copy()
     for col in df.columns:
         for lag in range(1, lags + 1):
             df_lag[f'{col}_lag{lag}'] = df[col].shift(lag)
     df_lag.dropna(inplace=True)
-    return df_lag
+    return df_lag'''
 
-def create_forecast_frame(df, h=4):
+'''def create_forecast_frame(df, h=4):
     df_lag = df.copy()
     for i in range(1, h + 1):
         df_lag[f'{target}_t+i={i}'] = df[target].shift(-i)
     df_lag = df_lag.dropna()
-    return df_lag
+    return df_lag'''
 
 def create_horizon_targets(df, target_col, max_horizon):
     df = df.copy()
